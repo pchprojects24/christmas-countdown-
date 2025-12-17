@@ -5,390 +5,260 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>The Youngs' Christmas Countdown</title>
   <style>
-    :root{
-      --bg:#0b1220;
-      --card:#0f1a2e;
-      --text:#f3f4f6;
-      --muted:#b6c2d9;
-      --accent:#fbbf24;
-      --border:rgba(255,255,255,.10);
+    :root {
+      --bg: #0a1a0f; /* Deep Forest Green */
+      --card: rgba(255, 255, 255, 0.08);
+      --text: #ffffff;
+      --muted: #d1d5db;
+      --accent: #d4af37; /* Gold */
+      --holiday-red: #b91c1c;
+      --border: rgba(255, 255, 255, 0.15);
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:-apple-system,system-ui,Segoe UI,Roboto,Arial,sans-serif;
-      background:radial-gradient(1200px 700px at 30% -10%, rgba(251,191,36,.15), transparent 55%),
-                 radial-gradient(1200px 700px at 80% 10%, rgba(34,211,238,.10), transparent 60%),
-                 var(--bg);
-      color:var(--text);
-    }
-    .wrap{max-width:720px;margin:0 auto;padding:18px 14px 28px}
-    h1{margin:8px 0 10px;font-size:22px;letter-spacing:.2px}
-    .sub{color:var(--muted);margin:0 0 14px;font-size:14px}
-
-    /* Hero (3-photo slow crossfade) */
-    .hero{
-      position:relative;
-      height:170px;
-      border-radius:18px;
-      overflow:hidden;
-      border:1px solid var(--border);
-      background:#0a0f1a;
-      margin:10px 0 16px;
-    }
-    .hero img{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      object-fit:cover;
-      opacity:0;
-      animation:fade 21s infinite;
-      transform:scale(1.02);
-    }
-    .hero img:nth-child(1){animation-delay:0s}
-    .hero img:nth-child(2){animation-delay:7s}
-    .hero img:nth-child(3){animation-delay:14s}
-    @keyframes fade{
-      0%{opacity:0}
-      10%{opacity:1}
-      33%{opacity:1}
-      43%{opacity:0}
-      100%{opacity:0}
-    }
-    .hero::after{
-      content:"";
-      position:absolute; inset:0;
-      background:linear-gradient(to top, rgba(11,18,32,.75), rgba(11,18,32,.10) 55%, rgba(11,18,32,.35));
-      pointer-events:none;
+    
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(circle at top, #1e3a24, var(--bg));
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    .card{
-      background:rgba(15,26,46,.9);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:14px;
-      margin:12px 0;
-      backdrop-filter: blur(6px);
-    }
-    .label{color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
-    .title{font-size:18px;margin:6px 0 6px;font-weight:700}
-    .countdown{
-      font-size:38px;
-      font-weight:800;
-      letter-spacing:.5px;
-      margin:6px 0 2px;
-    }
-    .when{color:var(--muted);font-size:14px;margin:0}
-    .hint{color:var(--muted);font-size:13px;margin:8px 0 0}
-
-    .list{margin-top:10px}
-    .event{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      padding:12px 10px;
-      border-radius:14px;
-      border:1px solid transparent;
-    }
-    .event + .event{margin-top:8px}
-    .event:hover{border-color:var(--border)}
-    .num{
-      width:30px;height:30px;flex:0 0 30px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      display:flex;align-items:center;justify-content:center;
-      color:var(--accent);font-weight:700;
-      background:rgba(0,0,0,.15);
-    }
-    .event-main{flex:1}
-    .event-name{margin:0;font-weight:700}
-    .event-time{margin:3px 0 0;color:var(--muted);font-size:13px}
-    .btn{
-      flex:0 0 auto;
-      border:1px solid var(--border);
-      background:rgba(0,0,0,.15);
-      color:var(--text);
-      border-radius:12px;
-      padding:8px 10px;
-      font-size:13px;
-      cursor:pointer;
-    }
-    .btn:active{transform:translateY(1px)}
-    .notes{
-      margin-top:8px;
-      display:none;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.35;
-      padding:10px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:rgba(0,0,0,.18);
-      white-space:pre-wrap;
-    }
-    .event.open .notes{display:block}
-
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    a.action{
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      background:rgba(0,0,0,.12);
-      color:var(--text);
-      font-weight:600;
-      font-size:14px;
+    /* Falling Snow Animation */
+    body::before {
+      content: "❄";
+      position: fixed;
+      top: -10%;
+      left: 10%;
+      font-size: 20px;
+      color: white;
+      opacity: 0.3;
+      animation: snow 10s linear infinite;
+      text-shadow: 20vw 10vh 0 white, 60vw 30vh 0 white, 40vw 50vh 0 white;
+      z-index: -1;
     }
 
-    .footer{color:var(--muted);font-size:12px;margin-top:14px;text-align:center}
+    @keyframes snow {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(110vh); }
+    }
+
+    .wrap { max-width: 600px; margin: 0 auto; padding: 20px 15px; }
+
+    h1 { 
+      text-align: center; 
+      color: var(--accent); 
+      font-family: serif; 
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+    .sub { text-align: center; color: var(--muted); margin-bottom: 20px; font-style: italic; }
+
+    /* Photos */
+    .hero {
+      height: 200px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 3px solid var(--accent);
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .hero img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      animation: fade 15s infinite;
+    }
+    .hero img:nth-child(1) { animation-delay: 0s; }
+    .hero img:nth-child(2) { animation-delay: 5s; }
+    .hero img:nth-child(3) { animation-delay: 10s; }
+
+    @keyframes fade {
+      0%, 20% { opacity: 0; }
+      30%, 70% { opacity: 1; }
+      80%, 100% { opacity: 0; }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .label { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
+    .title { font-size: 22px; margin: 10px 0; font-weight: 800; }
+    .countdown { font-size: 34px; font-weight: 800; color: var(--holiday-red); text-shadow: 0 0 10px rgba(185, 28, 28, 0.3); }
+
+    /* Weather Styling */
+    .weather-box { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+    .temp { font-size: 28px; font-weight: bold; }
+    .condition { color: var(--muted); text-transform: capitalize; }
+
+    /* List Items */
+    .event { padding: 12px; border-bottom: 1px solid var(--border); transition: background 0.3s; cursor: pointer; }
+    .event:last-child { border: none; }
+    .event-header { display: flex; justify-content: space-between; align-items: center; }
+    .event-name { font-weight: bold; font-size: 16px; margin: 0; }
+    .event-time { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    
+    .event-details { 
+      max-height: 0; 
+      overflow: hidden; 
+      transition: max-height 0.3s ease-out; 
+      font-size: 14px; 
+      color: var(--muted);
+      background: rgba(0,0,0,0.2);
+      border-radius: 10px;
+    }
+    .event.open .event-details { max-height: 200px; padding: 10px; margin-top: 10px; }
+    .mini-countdown { color: var(--accent); font-weight: bold; margin-top: 5px; font-family: monospace; }
+
+    .btn {
+      background: var(--holiday-red);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    .btn-outline { background: transparent; border: 1px solid var(--accent); color: var(--accent); margin-left: 5px;}
+
   </style>
 </head>
-
 <body>
-  <div class="wrap">
-    <h1>The Youngs’ Christmas Countdown</h1>
-    <p class="sub">A simple plan page for the holidays.</p>
 
-    <!-- 3-photo hero fade -->
-    <div class="hero" aria-label="Christmas photos">
-      <img src="images/hero1.jpg" alt="">
-      <img src="images/hero2.jpg" alt="">
-      <img src="images/hero3.jpg" alt="">
-    </div>
+<div class="wrap">
+  <h1>Youngs' Christmas</h1>
+  <p class="sub">Countdown to Mom's Visit</p>
 
-    <!-- Next up -->
-    <div class="card" id="nextCard">
-      <div class="label">Next up</div>
-      <div class="title" id="nextTitle">—</div>
-      <div class="countdown" id="nextCountdown">—</div>
-      <p class="when" id="nextWhen">—</p>
-      <p class="hint" id="nextHint"></p>
-    </div>
-
-    <!-- Upcoming (collapsed by default) -->
-    <div class="card">
-      <div class="label">Upcoming events</div>
-      <div class="list" id="eventList"></div>
-      <div class="actions" style="margin-top:12px">
-        <button class="btn" id="toggleAllBtn">Show all events</button>
-      </div>
-    </div>
-
-    <!-- Utilities -->
-    <div class="card">
-      <div class="label">Helpful links</div>
-      <div class="actions">
-        <!-- Replace these links with exactly what you want -->
-        <a class="action" href="https://511.novascotia.ca/" target="_blank" rel="noopener">🌦 Roads (NS 511)</a>
-        <a class="action" href="https://www.511nb.ca/" target="_blank" rel="noopener">🌦 Roads (NB 511)</a>
-        <a class="action" href="memories.html">🎄 Christmas Memories</a>
-      </div>
-    </div>
-
-    <div class="footer" id="lastUpdated">Last updated: —</div>
+  <div class="hero">
+    <img src="images/hero1.jpg" alt="Holiday Memory 1">
+    <img src="images/hero2.jpg" alt="Holiday Memory 2">
+    <img src="images/hero3.jpg" alt="Holiday Memory 3">
   </div>
 
-  <script>
-    // ====== YOU EDIT THIS LIST ONLY ======
-    // Times are in Atlantic time (Halifax). Use ISO with timezone offset -04:00.
-    // If Atlantic shifts to -03:00 during daylight time, change offset accordingly.
-    const EVENTS = [
-      {
-        id: "leave-timberlea",
-        name: "Chad leaves Timberlea",
-        whenISO: "2025-12-22T07:00:00-04:00", // <-- set your departure time
-        whenText: "Mon Dec 22 · 7:00 AM",
-        hint: "Heading to Saint John for pickup.",
-        notes: "Drive to Saint John.\nPickup at 12:30 PM.\nCostco after pickup, then Cambridge Narrows."
-      },
-      {
-        id: "pickup-mom",
-        name: "Pickup Mom (Saint John)",
-        whenISO: "2025-12-22T12:30:00-04:00",
-        whenText: "Mon Dec 22 · 12:30 PM",
-        notes: "After pickup: Costco Saint John.\nThen drive to Cambridge Narrows.\nOvernight at Mom's home."
-      },
-      {
-        id: "leave-cambridge",
-        name: "Leave Cambridge Narrows",
-        whenISO: "2025-12-23T10:00:00-04:00",
-        whenText: "Tue Dec 23 · 10:00 AM",
-        notes: "Drive back toward Timberlea.\nQuick pickup stop: Deluxe French Fries (Truro) to bring home.\nGoal: home by ~3:00 PM."
-      },
-      {
-        id: "bingo",
-        name: "Halifax Forum Bingo (main start)",
-        whenISO: "2025-12-23T19:30:00-04:00",
-        whenText: "Tue Dec 23 · 7:30 PM",
-        notes: "Doors open 5:00 PM.\nWarm-up 6:15 PM.\nAim to arrive early for parking/seats."
-      },
-      {
-        id: "oz",
-        name: "Wizard of Oz (Neptune Theatre)",
-        whenISO: "2025-12-24T14:00:00-04:00",
-        whenText: "Wed Dec 24 · 2:00 PM",
-        notes: "Neptune Theatre.\nLeave time TBD.\nParking plan TBD."
-      },
-      {
-        id: "marice-drives-back",
-        name: "Marice drives Mom back to New Brunswick",
-        whenISO: null,
-        whenText: "Sat Dec 27 · time TBD",
-        notes: "Timing to be determined.\nAfter drop-off: Marice may stay 1–2 nights with her mother (TBD)."
-      },
-      {
-        id: "marice-returns",
-        name: "Marice returns to Timberlea",
-        whenISO: null,
-        whenText: "Date/time TBD",
-        notes: "Timing to be determined."
-      }
-    ];
+  <div class="card" id="mainCard">
+    <div class="label">Coming Up Next</div>
+    <div class="title" id="nextTitle">Loading...</div>
+    <div class="countdown" id="nextCountdown">00d 00h 00m 00s</div>
+    <div id="nextWhen" style="font-size: 14px; color: var(--muted); margin-top: 5px;"></div>
+  </div>
 
-    // Set this manually whenever you update the repo:
-    const LAST_UPDATED_TEXT = "Dec 17, 2025";
+  <div class="card">
+    <div class="label">Timberlea Weather</div>
+    <div class="weather-box" id="weatherBox">
+      <div>
+        <div class="temp" id="currTemp">--°C</div>
+        <div class="condition" id="currCond">Fetching...</div>
+      </div>
+      <a href="https://www.theweathernetwork.com/ca/weather/nova-scotia/timberlea" class="btn" target="_blank">Full Map</a>
+    </div>
+  </div>
 
-    // ====== RENDERING ======
-    const listEl = document.getElementById("eventList");
-    const toggleBtn = document.getElementById("toggleAllBtn");
-    const lastUpdatedEl = document.getElementById("lastUpdated");
+  <div class="card">
+    <div class="label">The Holiday Schedule</div>
+    <div id="eventList"></div>
+    <button class="btn btn-outline" style="width:100%; margin-top:15px;" id="toggleEvents">Show All</button>
+  </div>
 
-    const nextTitleEl = document.getElementById("nextTitle");
-    const nextCountdownEl = document.getElementById("nextCountdown");
-    const nextWhenEl = document.getElementById("nextWhen");
-    const nextHintEl = document.getElementById("nextHint");
+  <div style="text-align: center;">
+    <a href="memories.html" class="btn" style="background: var(--accent); color: black; font-size: 18px; width: 100%;">🎄 View Christmas Memories</a>
+  </div>
+</div>
 
-    lastUpdatedEl.textContent = "Last updated: " + LAST_UPDATED_TEXT;
+<script>
+  const EVENTS = [
+    { name: "Chad leaves Timberlea", iso: "2025-12-22T07:00:00-04:00", notes: "Heading to Saint John for pickup. Pickup at 12:30 PM." },
+    { name: "Pickup Mom (Saint John)", iso: "2025-12-22T12:30:00-04:00", notes: "Costco visit then drive to Cambridge Narrows." },
+    { name: "Leave Cambridge Narrows", iso: "2025-12-23T10:00:00-04:00", notes: "Stop at Deluxe French Fries (Truro) on way back!" },
+    { name: "Halifax Forum Bingo", iso: "2025-12-23T19:30:00-04:00", notes: "Doors open 5:00 PM. Arrive early for parking." },
+    { name: "Wizard of Oz", iso: "2025-12-24T14:00:00-04:00", notes: "Neptune Theatre. Parking plan TBD." }
+  ];
 
-    let showAll = false;
-
-    function formatCountdown(ms) {
-      if (ms <= 0) return "Now";
-      const totalSec = Math.floor(ms / 1000);
-      const days = Math.floor(totalSec / 86400);
-      const hours = Math.floor((totalSec % 86400) / 3600);
-      const mins = Math.floor((totalSec % 3600) / 60);
-      const secs = totalSec % 60;
-      return `${days}d ${String(hours).padStart(2,"0")}h ${String(mins).padStart(2,"0")}m ${String(secs).padStart(2,"0")}s`;
-    }
-
-    function getUpcoming() {
-      const now = new Date();
-      return EVENTS
-        .map(e => ({...e, date: e.whenISO ? new Date(e.whenISO) : null}))
-        .sort((a,b) => {
-          if (!a.date && !b.date) return 0;
-          if (!a.date) return 1;
-          if (!b.date) return -1;
-          return a.date - b.date;
-        });
-    }
-
-    function findNextEvent(sorted) {
-      const now = new Date();
-      for (const e of sorted) {
-        if (!e.date) continue;
-        if (e.date - now > 0) return e;
-      }
-      // If none upcoming with dates, fallback to first TBD or first item.
-      return sorted[0] || null;
-    }
-
-    function renderList(sorted, nextId) {
-      listEl.innerHTML = "";
-      const visibleCount = showAll ? sorted.length : 3;
-
-      let num = 1;
-      for (let i=0; i<sorted.length; i++) {
-        const e = sorted[i];
-        if (i >= visibleCount) break;
-
-        const row = document.createElement("div");
-        row.className = "event";
-        row.dataset.id = e.id;
-
-        const numEl = document.createElement("div");
-        numEl.className = "num";
-        numEl.textContent = num++;
-
-        const main = document.createElement("div");
-        main.className = "event-main";
-
-        const name = document.createElement("p");
-        name.className = "event-name";
-        name.textContent = e.name;
-
-        const time = document.createElement("p");
-        time.className = "event-time";
-        time.textContent = e.whenText || "—";
-
-        const notes = document.createElement("div");
-        notes.className = "notes";
-        notes.textContent = e.notes || "";
-
-        main.appendChild(name);
-        main.appendChild(time);
-        main.appendChild(notes);
-
-        const btn = document.createElement("button");
-        btn.className = "btn";
-        btn.type = "button";
-        btn.textContent = "Notes";
-        btn.addEventListener("click", () => {
-          row.classList.toggle("open");
-        });
-
-        row.appendChild(numEl);
-        row.appendChild(main);
-        row.appendChild(btn);
-
-        listEl.appendChild(row);
-      }
-
-      toggleBtn.textContent = showAll ? "Hide extra events" : "Show all events";
-    }
-
-    function renderNext(next) {
-      if (!next) {
-        nextTitleEl.textContent = "No events set";
-        nextCountdownEl.textContent = "—";
-        nextWhenEl.textContent = "—";
-        nextHintEl.textContent = "";
-        return;
-      }
-      nextTitleEl.textContent = next.name;
-      nextWhenEl.textContent = next.whenText || "—";
-      nextHintEl.textContent = next.hint || "";
-    }
-
-    function tick(next) {
-      if (!next || !next.date) {
-        nextCountdownEl.textContent = "—";
-        return;
-      }
-      const now = new Date();
-      const ms = next.date - now;
-      nextCountdownEl.textContent = formatCountdown(ms);
-    }
-
-    function init() {
-      const sorted = getUpcoming();
-      const next = findNextEvent(sorted);
-      renderNext(next);
-      renderList(sorted, next ? next.id : null);
-
-      toggleBtn.addEventListener("click", () => {
-        showAll = !showAll;
-        renderList(sorted, next ? next.id : null);
+  function updateWeather() {
+    // Open-Meteo for Timberlea (Halifax coords approx)
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=44.6488&longitude=-63.5752&current_weather=true')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('currTemp').textContent = Math.round(data.current_weather.temperature) + "°C";
+        document.getElementById('currCond').textContent = "Current Conditions";
+      }).catch(() => {
+        document.getElementById('currCond').textContent = "Weather unavailable";
       });
+  }
 
-      tick(next);
-      setInterval(() => tick(next), 1000);
+  function formatTime(ms) {
+    if (ms < 0) return "Started!";
+    const d = Math.floor(ms / 86400000);
+    const h = Math.floor((ms % 86400000) / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    const s = Math.floor((ms % 60000) / 1000);
+    return `${d}d ${h}h ${m}m ${s}s`;
+  }
+
+  function renderEvents() {
+    const list = document.getElementById('eventList');
+    list.innerHTML = '';
+    const now = new Date();
+
+    EVENTS.forEach((ev, i) => {
+      const evDate = new Date(ev.iso);
+      const row = document.createElement('div');
+      row.className = 'event';
+      row.innerHTML = `
+        <div class="event-header">
+          <div>
+            <p class="event-name">${ev.name}</p>
+            <p class="event-time">${evDate.toLocaleString([], {weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})}</p>
+          </div>
+          <span style="color:var(--accent)">▼</span>
+        </div>
+        <div class="event-details">
+          ${ev.notes}
+          <div class="mini-countdown" id="mini-${i}"></div>
+        </div>
+      `;
+      row.onclick = () => row.classList.toggle('open');
+      list.appendChild(row);
+    });
+  }
+
+  function tick() {
+    const now = new Date();
+    let next = null;
+
+    EVENTS.forEach((ev, i) => {
+      const diff = new Date(ev.iso) - now;
+      const mini = document.getElementById(`mini-${i}`);
+      if (mini) mini.textContent = "Countdown: " + formatTime(diff);
+      
+      if (!next && diff > 0) next = ev;
+    });
+
+    if (next) {
+      document.getElementById('nextTitle').textContent = next.name;
+      document.getElementById('nextCountdown').textContent = formatTime(new Date(next.iso) - now);
+      document.getElementById('nextWhen').textContent = new Date(next.iso).toLocaleString();
     }
+  }
 
-    init();
-  </script>
+  updateWeather();
+  renderEvents();
+  setInterval(tick, 1000);
+</script>
+
 </body>
 </html>
