@@ -6,258 +6,199 @@
   <title>The Youngs' Christmas Countdown</title>
   <style>
     :root {
-      --bg: #0a1a0f; /* Deep Forest Green */
-      --card: rgba(255, 255, 255, 0.08);
+      --bg: #050a06; /* Deep Midnight Green */
+      --card: rgba(255, 255, 255, 0.07);
       --text: #ffffff;
-      --muted: #d1d5db;
       --accent: #d4af37; /* Gold */
-      --holiday-red: #b91c1c;
-      --border: rgba(255, 255, 255, 0.15);
+      --holiday-red: #991b1b;
+      --border: rgba(255, 255, 255, 0.12);
     }
     
     * { box-sizing: border-box; }
     
     body {
       margin: 0;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at top, #1e3a24, var(--bg));
+      font-family: 'Georgia', serif;
+      background: radial-gradient(circle at top, #142b1a, var(--bg));
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* Falling Snow Animation */
-    body::before {
-      content: "❄";
-      position: fixed;
-      top: -10%;
-      left: 10%;
-      font-size: 20px;
-      color: white;
-      opacity: 0.3;
-      animation: snow 10s linear infinite;
-      text-shadow: 20vw 10vh 0 white, 60vw 30vh 0 white, 40vw 50vh 0 white;
-      z-index: -1;
-    }
+    /* Falling Snow */
+    .snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    .snowflake { position: absolute; top: -10px; color: white; opacity: 0.8; animation: fall linear infinite; }
+    @keyframes fall { to { transform: translateY(105vh); } }
 
-    @keyframes snow {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(110vh); }
-    }
+    .wrap { max-width: 650px; margin: 0 auto; padding: 25px 15px; position: relative; z-index: 1; }
 
-    .wrap { max-width: 600px; margin: 0 auto; padding: 20px 15px; }
+    h1 { text-align: center; color: var(--accent); font-size: 32px; margin-bottom: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    .sub { text-align: center; color: var(--muted); margin-bottom: 25px; opacity: 0.8; }
 
-    h1 { 
-      text-align: center; 
-      color: var(--accent); 
-      font-family: serif; 
-      font-size: 28px;
-      margin-bottom: 5px;
-    }
-
-    .sub { text-align: center; color: var(--muted); margin-bottom: 20px; font-style: italic; }
-
-    /* Photos */
-    .hero {
-      height: 200px;
-      border-radius: 20px;
-      overflow: hidden;
-      border: 3px solid var(--accent);
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .hero img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      animation: fade 15s infinite;
-    }
+    /* Photo Hero */
+    .hero { height: 180px; border-radius: 15px; overflow: hidden; border: 2px solid var(--accent); margin-bottom: 20px; position: relative; }
+    .hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: fade 12s infinite; }
     .hero img:nth-child(1) { animation-delay: 0s; }
-    .hero img:nth-child(2) { animation-delay: 5s; }
-    .hero img:nth-child(3) { animation-delay: 10s; }
-
-    @keyframes fade {
-      0%, 20% { opacity: 0; }
-      30%, 70% { opacity: 1; }
-      80%, 100% { opacity: 0; }
-    }
+    .hero img:nth-child(2) { animation-delay: 4s; }
+    .hero img:nth-child(3) { animation-delay: 8s; }
+    @keyframes fade { 0%, 15% { opacity: 0; } 25%, 75% { opacity: 1; } 85%, 100% { opacity: 0; } }
 
     /* Cards */
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 15px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
-
-    .label { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
-    .title { font-size: 22px; margin: 10px 0; font-weight: 800; }
-    .countdown { font-size: 34px; font-weight: 800; color: var(--holiday-red); text-shadow: 0 0 10px rgba(185, 28, 28, 0.3); }
-
-    /* Weather Styling */
-    .weather-box { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
-    .temp { font-size: 28px; font-weight: bold; }
-    .condition { color: var(--muted); text-transform: capitalize; }
-
-    /* List Items */
-    .event { padding: 12px; border-bottom: 1px solid var(--border); transition: background 0.3s; cursor: pointer; }
-    .event:last-child { border: none; }
-    .event-header { display: flex; justify-content: space-between; align-items: center; }
-    .event-name { font-weight: bold; font-size: 16px; margin: 0; }
-    .event-time { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 18px; margin-bottom: 15px; backdrop-filter: blur(8px); }
+    .label { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin-bottom: 10px; }
     
-    .event-details { 
-      max-height: 0; 
-      overflow: hidden; 
-      transition: max-height 0.3s ease-out; 
-      font-size: 14px; 
-      color: var(--muted);
-      background: rgba(0,0,0,0.2);
-      border-radius: 10px;
-    }
-    .event.open .event-details { max-height: 200px; padding: 10px; margin-top: 10px; }
-    .mini-countdown { color: var(--accent); font-weight: bold; margin-top: 5px; font-family: monospace; }
+    /* Weather Grid */
+    .weather-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .weather-item { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px; border: 1px solid var(--border); }
+    .w-loc { font-size: 12px; font-weight: bold; color: var(--accent); }
+    .w-temp { font-size: 20px; font-weight: 800; margin: 5px 0; }
+    .w-desc { font-size: 11px; opacity: 0.7; }
 
-    .btn {
-      background: var(--holiday-red);
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: bold;
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 10px;
-    }
-    .btn-outline { background: transparent; border: 1px solid var(--accent); color: var(--accent); margin-left: 5px;}
+    /* List Item Styles */
+    .event { padding: 15px 10px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.2s; }
+    .event:hover { background: rgba(255,255,255,0.03); }
+    .event-main { display: flex; justify-content: space-between; align-items: center; }
+    .event-name { font-weight: bold; margin: 0; font-size: 16px; }
+    .event-time { font-size: 13px; color: #aaa; margin-top: 4px; }
+    .details { max-height: 0; overflow: hidden; transition: 0.3s ease-out; font-size: 14px; color: #ddd; background: rgba(0,0,0,0.2); border-radius: 8px; }
+    .event.open .details { max-height: 150px; padding: 12px; margin-top: 10px; }
+    .mini-cd { color: var(--accent); font-family: monospace; font-size: 12px; margin-top: 8px; display: block; }
 
+    .btn { background: var(--holiday-red); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; text-decoration: none; display: block; text-align: center; margin-top: 10px; }
+    .btn-gold { background: var(--accent); color: black; }
   </style>
 </head>
 <body>
 
+<div class="snow-container" id="snow"></div>
+
 <div class="wrap">
-  <h1>Youngs' Christmas</h1>
-  <p class="sub">Countdown to Mom's Visit</p>
+  <h1>The Youngs' Christmas Countdown</h1>
+  <p class="sub">Holiday Travel & Events Schedule</p>
 
   <div class="hero">
-    <img src="images/hero1.jpg" alt="Holiday Memory 1">
-    <img src="images/hero2.jpg" alt="Holiday Memory 2">
-    <img src="images/hero3.jpg" alt="Holiday Memory 3">
-  </div>
-
-  <div class="card" id="mainCard">
-    <div class="label">Coming Up Next</div>
-    <div class="title" id="nextTitle">Loading...</div>
-    <div class="countdown" id="nextCountdown">00d 00h 00m 00s</div>
-    <div id="nextWhen" style="font-size: 14px; color: var(--muted); margin-top: 5px;"></div>
+    <img src="images/hero1.jpg" alt="Photo 1">
+    <img src="images/hero2.jpg" alt="Photo 2">
+    <img src="images/hero3.jpg" alt="Photo 3">
   </div>
 
   <div class="card">
-    <div class="label">Timberlea Weather</div>
-    <div class="weather-box" id="weatherBox">
-      <div>
-        <div class="temp" id="currTemp">--°C</div>
-        <div class="condition" id="currCond">Fetching...</div>
+    <div class="label">Live Regional Weather</div>
+    <div class="weather-grid">
+      <div class="weather-item">
+        <div class="w-loc">Timberlea, NS</div>
+        <div class="w-temp" id="t-temp">--°C</div>
+        <div class="w-desc">Loading...</div>
       </div>
-      <a href="https://www.theweathernetwork.com/ca/weather/nova-scotia/timberlea" class="btn" target="_blank">Full Map</a>
+      <div class="weather-item">
+        <div class="w-loc">C. Narrows, NB</div>
+        <div class="w-temp" id="c-temp">--°C</div>
+        <div class="w-desc">Loading...</div>
+      </div>
     </div>
+    <a href="https://511.novascotia.ca/" class="btn" style="margin-top:15px; background: rgba(255,255,255,0.1); font-size: 12px;">Check Road Conditions (511)</a>
   </div>
 
   <div class="card">
-    <div class="label">The Holiday Schedule</div>
+    <div class="label" id="listLabel">Upcoming Schedule</div>
     <div id="eventList"></div>
-    <button class="btn btn-outline" style="width:100%; margin-top:15px;" id="toggleEvents">Show All</button>
+    <button class="btn" style="background: transparent; border: 1px solid var(--border); font-size: 13px;" id="toggleBtn">Show Full List</button>
   </div>
 
-  <div style="text-align: center;">
-    <a href="memories.html" class="btn" style="background: var(--accent); color: black; font-size: 18px; width: 100%;">🎄 View Christmas Memories</a>
-  </div>
+  <a href="memories.html" class="btn btn-gold">🎄 View Christmas Memories</a>
 </div>
 
 <script>
+  // -- CONFIGURATION --
   const EVENTS = [
-    { name: "Chad leaves Timberlea", iso: "2025-12-22T07:00:00-04:00", notes: "Heading to Saint John for pickup. Pickup at 12:30 PM." },
-    { name: "Pickup Mom (Saint John)", iso: "2025-12-22T12:30:00-04:00", notes: "Costco visit then drive to Cambridge Narrows." },
-    { name: "Leave Cambridge Narrows", iso: "2025-12-23T10:00:00-04:00", notes: "Stop at Deluxe French Fries (Truro) on way back!" },
-    { name: "Halifax Forum Bingo", iso: "2025-12-23T19:30:00-04:00", notes: "Doors open 5:00 PM. Arrive early for parking." },
-    { name: "Wizard of Oz", iso: "2025-12-24T14:00:00-04:00", notes: "Neptune Theatre. Parking plan TBD." }
+    { name: "Chad departs Timberlea", iso: "2025-12-22T07:00:00-04:00", notes: "Heading to Saint John. Pickup @ 12:30." },
+    { name: "Mom Pickup (Saint John)", iso: "2025-12-22T12:30:00-04:00", notes: "Costco visit then Cambridge Narrows." },
+    { name: "Leave Cambridge Narrows", iso: "2025-12-23T10:00:00-04:00", notes: "Truro stop for Deluxe French Fries!" },
+    { name: "Halifax Forum Bingo", iso: "2025-12-23T19:30:00-04:00", notes: "Main start. Arrive early for parking." },
+    { name: "Wizard of Oz Show", iso: "2025-12-24T14:00:00-04:00", notes: "Neptune Theatre. Classic Christmas Eve!" },
+    { name: "Drive to New Brunswick", iso: "2025-12-27T09:00:00-04:00", notes: "Marice drives Mom back." }
   ];
 
-  function updateWeather() {
-    // Open-Meteo for Timberlea (Halifax coords approx)
-    fetch('https://api.open-meteo.com/v1/forecast?latitude=44.6488&longitude=-63.5752&current_weather=true')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('currTemp').textContent = Math.round(data.current_weather.temperature) + "°C";
-        document.getElementById('currCond').textContent = "Current Conditions";
-      }).catch(() => {
-        document.getElementById('currCond').textContent = "Weather unavailable";
-      });
+  let showAll = false;
+
+  // -- WEATHER ENGINE --
+  async function fetchWeather(lat, lon, tempId) {
+    try {
+      const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+      const data = await res.json();
+      document.getElementById(tempId).textContent = Math.round(data.current_weather.temperature) + "°C";
+    } catch (e) { console.error("Weather error", e); }
   }
 
-  function formatTime(ms) {
-    if (ms < 0) return "Started!";
-    const d = Math.floor(ms / 86400000);
-    const h = Math.floor((ms % 86400000) / 3600000);
-    const m = Math.floor((ms % 3600000) / 60000);
-    const s = Math.floor((ms % 60000) / 1000);
-    return `${d}d ${h}h ${m}m ${s}s`;
+  // -- SNOW ENGINE --
+  function createSnow() {
+    const container = document.getElementById('snow');
+    for (let i = 0; i < 30; i++) {
+      let flake = document.createElement('div');
+      flake.className = 'snowflake';
+      flake.textContent = '❄';
+      flake.style.left = Math.random() * 100 + 'vw';
+      flake.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      flake.style.opacity = Math.random();
+      flake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+      container.appendChild(flake);
+    }
   }
 
+  // -- RENDER ENGINE --
   function renderEvents() {
     const list = document.getElementById('eventList');
     list.innerHTML = '';
-    const now = new Date();
+    const visible = showAll ? EVENTS : EVENTS.slice(0, 3);
 
-    EVENTS.forEach((ev, i) => {
-      const evDate = new Date(ev.iso);
+    visible.forEach((ev, i) => {
+      const date = new Date(ev.iso);
       const row = document.createElement('div');
       row.className = 'event';
       row.innerHTML = `
-        <div class="event-header">
+        <div class="event-main">
           <div>
             <p class="event-name">${ev.name}</p>
-            <p class="event-time">${evDate.toLocaleString([], {weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})}</p>
+            <p class="event-time">${date.toLocaleDateString([], {month:'short', day:'numeric'})} @ ${date.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</p>
           </div>
-          <span style="color:var(--accent)">▼</span>
+          <span style="color:var(--accent); font-size:12px;">DETAILS</span>
         </div>
-        <div class="event-details">
+        <div class="details">
           ${ev.notes}
-          <div class="mini-countdown" id="mini-${i}"></div>
+          <span class="mini-cd" id="cd-${i}">--</span>
         </div>
       `;
       row.onclick = () => row.classList.toggle('open');
       list.appendChild(row);
     });
+
+    document.getElementById('toggleBtn').textContent = showAll ? "Show Less" : "Show All Events";
   }
 
-  function tick() {
+  function updateTimers() {
     const now = new Date();
-    let next = null;
-
     EVENTS.forEach((ev, i) => {
-      const diff = new Date(ev.iso) - now;
-      const mini = document.getElementById(`mini-${i}`);
-      if (mini) mini.textContent = "Countdown: " + formatTime(diff);
-      
-      if (!next && diff > 0) next = ev;
+      const el = document.getElementById(`cd-${i}`);
+      if (el) {
+        const diff = new Date(ev.iso) - now;
+        if (diff < 0) { el.textContent = "Started!"; return; }
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        el.textContent = `T-Minus: ${d}d ${h}h ${m}m ${s}s`;
+      }
     });
-
-    if (next) {
-      document.getElementById('nextTitle').textContent = next.name;
-      document.getElementById('nextCountdown').textContent = formatTime(new Date(next.iso) - now);
-      document.getElementById('nextWhen').textContent = new Date(next.iso).toLocaleString();
-    }
   }
 
-  updateWeather();
+  document.getElementById('toggleBtn').onclick = () => { showAll = !showAll; renderEvents(); };
+
+  // Init
+  createSnow();
   renderEvents();
-  setInterval(tick, 1000);
+  fetchWeather(44.65, -63.68, 't-temp'); // Timberlea
+  fetchWeather(45.83, -66.07, 'c-temp'); // Cambridge Narrows
+  setInterval(updateTimers, 1000);
 </script>
 
 </body>
