@@ -31,7 +31,7 @@
 
     .wrap { max-width: 650px; margin: 0 auto; padding: 20px 15px; position: relative; z-index: 1; }
 
-    /* Header */
+    /* Glowing Header */
     .site-header { text-align: center; margin-bottom: 25px; }
     .header-top { display: block; font-size: 18px; color: var(--accent); text-transform: uppercase; letter-spacing: 4px; font-weight: 700; opacity: 0.9; }
     .header-bottom { display: block; font-size: 34px; font-weight: 800; color: var(--accent); text-shadow: 0 0 15px var(--accent); margin-top: 5px; }
@@ -50,7 +50,7 @@
     .featured-title { font-size: 22px; font-weight: 800; margin: 8px 0; }
     .featured-timer { font-size: 32px; font-weight: 900; font-family: monospace; }
 
-    /* Weather & Travel Hub */
+    /* Robust Weather & Road Card */
     .card { 
       background: var(--card); 
       border: 1px solid var(--border); 
@@ -65,38 +65,22 @@
     .weather-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
     .weather-item { 
       background: rgba(0,0,0,0.3); 
-      padding: 12px; 
+      padding: 15px 10px; 
       border-radius: 12px; 
       border: 1px solid var(--border);
       text-align: center;
     }
-    .w-loc { font-size: 11px; font-weight: bold; color: var(--accent); margin-bottom: 4px; }
-    .w-temp { font-size: 24px; font-weight: 800; }
-    .w-desc { font-size: 11px; color: #ccc; text-transform: capitalize; }
-
-    /* Date Badges */
-    .date-picker-label { font-size: 10px; color: #aaa; text-align: center; margin-bottom: 8px; }
-    .date-badges { display: flex; justify-content: space-between; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; gap: 8px; }
-    .date-badge { 
-      flex: 0 0 auto; 
-      width: 40px; 
-      height: 40px; 
-      border-radius: 10px; 
-      border: 1px solid var(--border); 
-      background: rgba(255,255,255,0.05);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      cursor: pointer; transition: all 0.3s;
-    }
-    .date-badge span { font-size: 14px; font-weight: bold; }
-    .date-badge small { font-size: 8px; text-transform: uppercase; }
-    .date-badge.active { background: var(--accent); color: black; border-color: var(--accent); box-shadow: 0 0 10px var(--accent); }
+    .w-loc { font-size: 12px; font-weight: bold; color: var(--accent); margin-bottom: 6px; }
+    .w-temp { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+    .w-desc { font-size: 11px; color: #fff; text-transform: capitalize; font-weight: bold; margin-bottom: 4px; }
+    .w-extra { font-size: 10px; color: #aaa; }
 
     .travel-links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .road-btn { 
       background: rgba(212, 175, 55, 0.1); 
       color: var(--accent); 
       border: 1px solid var(--accent); 
-      padding: 10px; 
+      padding: 12px; 
       border-radius: 10px; 
       font-size: 11px; 
       text-decoration: none; 
@@ -104,7 +88,7 @@
       font-weight: bold;
       transition: all 0.3s;
     }
-    .road-btn:active { background: var(--accent); color: black; }
+    .road-btn:active { background: var(--accent); color: black; transform: scale(0.95); }
 
     /* Schedule List */
     .event { padding: 15px 10px; border-bottom: 1px solid var(--border); cursor: pointer; }
@@ -120,7 +104,6 @@
     @media (max-width: 600px) {
       .header-bottom { font-size: 30px; }
       .featured-timer { font-size: 28px; }
-      .date-badge { width: 38px; height: 38px; }
     }
   </style>
 </head>
@@ -143,27 +126,24 @@
   </div>
 
   <div class="card">
-    <div class="label">Weather & Travel Planner</div>
+    <div class="label">Live Weather & Highway Safety</div>
     <div class="weather-grid">
       <div class="weather-item">
         <div class="w-loc">Timberlea, NS</div>
         <div class="w-temp" id="t-temp">--°C</div>
         <div class="w-desc" id="t-desc">Checking...</div>
+        <div class="w-extra" id="t-wind">Wind: -- km/h</div>
       </div>
       <div class="weather-item">
         <div class="w-loc">C. Narrows, NB</div>
         <div class="w-temp" id="c-temp">--°C</div>
         <div class="w-desc" id="c-desc">Checking...</div>
+        <div class="w-extra" id="c-wind">Wind: -- km/h</div>
       </div>
     </div>
-
-    <div class="date-picker-label">Select Date for Detailed Forecast:</div>
-    <div class="date-badges" id="dateBar">
-      </div>
-
     <div class="travel-links">
-      <a href="https://weather.gc.ca/city/pages/ns-19_metric_e.html" id="ns-forecast" target="_blank" class="road-btn">📍 NS Forecast</a>
-      <a href="https://weather.gc.ca/city/pages/nb-31_metric_e.html" id="nb-forecast" target="_blank" class="road-btn">📍 NB Forecast</a>
+      <a href="https://511.novascotia.ca/" target="_blank" class="road-btn">⚠️ NS Highway Map</a>
+      <a href="https://511.gnb.ca/" target="_blank" class="road-btn">⚠️ NB Highway Map</a>
     </div>
   </div>
 
@@ -193,45 +173,24 @@
     { name: "Return to New Brunswick", iso: "2025-12-27T09:00:00-04:00", notes: "Marice drives Mom home." }
   ];
 
-  // TRIP DATES FOR PICKER
-  const TRIP_DATES = [
-    { day: "22", label: "Mon" }, { day: "23", label: "Tue" }, { day: "24", label: "Wed" }, 
-    { day: "25", label: "Thu" }, { day: "26", label: "Fri" }, { day: "27", label: "Sat" }, { day: "28", label: "Sun" }
-  ];
+  let showAll = false;
 
-  function setupDatePicker() {
-    const bar = document.getElementById('dateBar');
-    const today = new Date().getDate().toString();
-
-    TRIP_DATES.forEach(date => {
-      const badge = document.createElement('div');
-      badge.className = 'date-badge' + (date.day === today ? ' active' : '');
-      badge.innerHTML = `<span>${date.day}</span><small>${date.label}</small>`;
-      badge.onclick = () => {
-        document.querySelectorAll('.date-badge').forEach(b => b.classList.remove('active'));
-        badge.classList.add('active');
-        // Update travel buttons to point to specific daily details
-        // Note: Weather Canada URLs typically lead to a main page where days are selectable
-        // We highlight the action for the family
-      };
-      bar.appendChild(badge);
-    });
-  }
-
-  // Weather Logic
+  // Weather Condition Mapping
   const WMO_MAP = {
-    0: "Clear", 1: "Mainly Clear", 2: "Partly Cloudy", 3: "Overcast",
+    0: "Clear Sky", 1: "Mainly Clear", 2: "Partly Cloudy", 3: "Overcast",
     45: "Foggy", 51: "Drizzle", 61: "Rain", 71: "Snowing", 73: "Heavy Snow",
     85: "Snow Showers", 95: "Thunderstorm"
   };
 
-  async function fetchWeather(lat, lon, tempId, descId) {
+  async function fetchWeather(lat, lon, tempId, descId, windId) {
     try {
       const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
       const data = await res.json();
-      document.getElementById(tempId).textContent = Math.round(data.current_weather.temperature) + "°C";
-      document.getElementById(descId).textContent = WMO_MAP[data.current_weather.weathercode] || "Cloudy";
-    } catch (e) { console.error(e); }
+      const current = data.current_weather;
+      document.getElementById(tempId).textContent = Math.round(current.temperature) + "°C";
+      document.getElementById(descId).textContent = WMO_MAP[current.weathercode] || "Cloudy";
+      document.getElementById(windId).textContent = "Wind: " + Math.round(current.windspeed) + " km/h";
+    } catch (e) { console.error("Weather fetch error:", e); }
   }
 
   function createSnow() {
@@ -252,10 +211,9 @@
     list.innerHTML = '';
     const now = new Date();
     const nextIndex = EVENTS.findIndex(ev => new Date(ev.iso) > now);
-    const visible = (nextIndex === -1) ? EVENTS.slice(-3) : EVENTS;
 
     EVENTS.forEach((ev, i) => {
-      if (!document.getElementById('toggleBtn').dataset.open && i >= 3) return;
+      if (!showAll && i >= 3) return;
       const date = new Date(ev.iso);
       const isNext = (i === nextIndex);
       const row = document.createElement('div');
@@ -299,16 +257,15 @@
   }
 
   document.getElementById('toggleBtn').onclick = function() { 
-    this.dataset.open = this.dataset.open ? '' : 'true'; 
+    showAll = !showAll; 
     renderEvents(); 
-    this.textContent = this.dataset.open ? "Show Less" : "Show All Events";
+    this.textContent = showAll ? "Show Less" : "Show All Events";
   };
 
   createSnow();
-  setupDatePicker();
   renderEvents();
-  fetchWeather(44.65, -63.68, 't-temp', 't-desc'); // Timberlea
-  fetchWeather(45.83, -66.07, 'c-temp', 'c-desc'); // Cambridge Narrows
+  fetchWeather(44.65, -63.68, 't-temp', 't-desc', 't-wind'); // Timberlea
+  fetchWeather(45.83, -66.07, 'c-temp', 'c-desc', 'c-wind'); // Cambridge Narrows
   setInterval(updateMainTimer, 1000);
   updateMainTimer();
 </script>
