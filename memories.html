@@ -63,7 +63,6 @@
       width: 100%;
       height: auto;
       display: block;
-      /* Ensures the photo fits the phone width perfectly */
     }
 
     .memory-info {
@@ -75,21 +74,6 @@
       color: var(--accent);
       font-weight: bold;
       font-size: 18px;
-      margin-bottom: 5px;
-    }
-
-    .memory-year {
-      font-size: 12px;
-      opacity: 0.7;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    /* Loading placeholder */
-    .loading {
-      text-align: center;
-      padding: 50px;
-      color: var(--accent);
     }
   </style>
 </head>
@@ -107,17 +91,17 @@
   </div>
 
 <script>
-  // Directly using the file names you uploaded to your main folder
+  // List of files from your repository main folder
   const PHOTOS = [
-    { src: '005.JPG', label: 'Family Holiday', year: 'Christmas' },
-    { src: '059.JPG', label: 'Festive Cheer', year: 'Christmas' },
-    { src: 'Christmas 2011 001.JPG', label: 'Traditions', year: '2011' },
-    { src: 'Christmas 2011 003.JPG', label: 'Gatherings', year: '2011' },
-    { src: 'Christmas 2011 236.JPG', label: 'Christmas Morning', year: '2011' },
-    { src: 'Christmas 2011 269.JPG', label: 'Holiday Smiles', year: '2011' },
-    { src: 'Christmas 2011 273.JPG', label: 'Gift Exchange', year: '2011' },
-    { src: 'Christmas 2011 281.JPG', label: 'Christmas Dinner', year: '2011' },
-    { src: 'DSCF0089.JPG', label: 'Celebration', year: 'Christmas' }
+    { src: '005.JPG', label: 'Family Holiday' },
+    { src: '059.JPG', label: 'Festive Cheer' },
+    { src: 'Christmas 2011 001.JPG', label: 'Traditions' },
+    { src: 'Christmas 2011 003.JPG', label: 'Gatherings' },
+    { src: 'Christmas 2011 236.JPG', label: 'Christmas Morning' },
+    { src: 'Christmas 2011 269.JPG', label: 'Holiday Smiles' },
+    { src: 'Christmas 2011 273.JPG', label: 'Gift Exchange' },
+    { src: 'Christmas 2011 281.JPG', label: 'Christmas Dinner' },
+    { src: 'DSCF0089.JPG', label: 'Celebration' }
   ];
 
   const gallery = document.getElementById('gallery');
@@ -129,7 +113,6 @@
       <img src="${photo.src}" alt="${photo.label}" loading="lazy">
       <div class="memory-info">
         <div class="memory-label">${photo.label}</div>
-        <div class="memory-year">${photo.year}</div>
       </div>
     `;
     gallery.appendChild(card);
