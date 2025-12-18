@@ -95,6 +95,7 @@
     .event { padding: 15px 10px; border-bottom: 1px solid var(--border); cursor: pointer; }
     .event-main { display: flex; justify-content: space-between; align-items: center; }
     .event-name { font-weight: bold; margin: 0; font-size: 16px; }
+    .event-time { font-size: 12px; color: #aaa; margin-top: 4px; }
     .click-hint { font-size: 9px; color: var(--accent); text-transform: uppercase; margin-top: 4px; }
     .details { max-height: 0; overflow: hidden; transition: 0.4s ease; font-size: 14px; color: #ddd; }
     .event.open .details { max-height: 400px; padding: 12px; margin-top: 10px; background: rgba(0,0,0,0.25); border-radius: 8px; border-left: 3px solid var(--accent); }
@@ -103,9 +104,10 @@
     .sub-itinerary li { margin-bottom: 8px; padding-left: 18px; position: relative; }
     .sub-itinerary li::before { content: "•"; position: absolute; left: 0; color: var(--accent); }
 
-    .link-btn { 
-      display: inline-block; margin-top: 10px; background: var(--accent); color: black; 
-      padding: 6px 12px; border-radius: 8px; text-decoration: none; font-size: 12px; font-weight: bold; 
+    .hub-btn { 
+      display: inline-block; margin-top: 15px; background: var(--accent); color: black; 
+      padding: 10px 15px; border-radius: 10px; text-decoration: none; font-size: 13px; font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
 
     .btn { background: var(--holiday-red); color: white; border: none; padding: 14px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; text-decoration: none; display: block; text-align: center; margin-top: 10px; }
@@ -208,15 +210,13 @@
     { 
       name: "Halifax Forum Bingo", 
       iso: "2025-12-23T19:30:00-04:00", 
-      link: "https://nsshf.com/bingo-at-the-forum/",
-      linkText: "View Bingo Schedule",
+      hubLink: "bingo.html",
       subTasks: ["Doors open: 5:00 p.m.", "Warm-up: 6:15 p.m.", "Main bingo: 7:30 p.m."] 
     },
     { 
       name: "Wizard of Oz Show", 
       iso: "2025-12-24T14:00:00-04:00", 
-      link: "https://www.neptunetheatre.com/box-office/wizard-of-oz",
-      linkText: "Theatre Info",
+      hubLink: "neptune.html",
       subTasks: ["Neptune Theatre Main Stage", "Post-show: Holiday House Tour"] 
     },
     { name: "Christmas Day", iso: "2025-12-25T10:00:00-04:00", subTasks: ["Family Dinner"] },
@@ -229,13 +229,16 @@
   function updateStatusBanner() {
     const now = new Date();
     const day = now.getDate();
+    const month = now.getMonth(); // 11 is December
     const banner = document.getElementById('liveStatus');
     let msg = "";
 
-    if (day === 22) msg = "🚗 Status: En route for pickup in Saint John.";
-    else if (day === 23) msg = "🍟 Status: Stopping for Deluxe French Fries soon!";
-    else if (day === 24) msg = "🎭 Status: Heading to the Emerald City at Neptune!";
-    else if (day === 25) msg = "🍗 Status: Merry Christmas! Dinner time.";
+    if (month === 11) {
+      if (day === 22) msg = "🚗 Status: En route for pickup in Saint John.";
+      else if (day === 23) msg = "🍟 Status: Stopping for Deluxe French Fries soon!";
+      else if (day === 24) msg = "🎭 Status: Heading to the Emerald City at Neptune!";
+      else if (day === 25) msg = "🍗 Status: Merry Christmas! Dinner time.";
+    }
 
     if (msg) { banner.textContent = msg; banner.style.display = "block"; }
   }
@@ -264,7 +267,7 @@
       
       let html = `<ul class="sub-itinerary">`;
       ev.subTasks.forEach(task => { html += `<li>${task}</li>`; });
-      if (ev.link) html += `<a href="${ev.link}" target="_blank" class="link-btn">${ev.linkText}</a>`;
+      if (ev.hubLink) html += `<a href="${ev.hubLink}" class="hub-btn">Enter Hub ➔</a>`;
       html += `</ul>`;
 
       row.innerHTML = `
@@ -274,7 +277,7 @@
             <p class="event-time">${date.toLocaleDateString([], {month:'short', day:'numeric'})} @ ${date.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</p>
             <span class="click-hint">Tap for details</span>
           </div>
-          <span style="color:var(--accent)">▼</span>
+          <span style="color:var(--accent)">${isNext ? '▲' : '▼'}</span>
         </div>
         <div class="details">${html}</div>
       `;
