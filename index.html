@@ -58,6 +58,7 @@
     .c-btn { 
       font-size: 10px; text-decoration: none; color: white; border: 1px solid var(--border); 
       padding: 6px; border-radius: 5px; background: rgba(255,255,255,0.05);
+      min-height: 44px; display: flex; align-items: center; justify-content: center;
     }
 
     /* Cards */
@@ -107,6 +108,16 @@
     @media (max-width: 600px) {
       .header-bottom { font-size: 30px; }
       .featured-timer { font-size: 28px; }
+    }
+    
+    /* Mobile Responsiveness for Contact Grid */
+    @media (max-width: 400px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 12px; }
+      .c-btn { font-size: 12px; padding: 8px; }
+    }
+    
+    @media (min-width: 401px) and (max-width: 600px) {
+      .contact-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
     }
   </style>
 </head>
@@ -179,11 +190,13 @@
 
   <a href="memories.html" class="btn btn-gold" style="font-size: 18px;">🎁 Christmas Memories</a>
   
-  <div class="footer-line">Last updated: Dec 18, 2025</div>
+  <div class="footer-line" id="lastUpdated">Last updated: Loading...</div>
 </div>
 
 <script>
   // Updated Data: Pick up Mona is now its own dated event
+  // NOTE: All ISO dates use Atlantic Standard Time (AST, UTC-04:00) timezone
+  // This is the timezone used in Nova Scotia and New Brunswick during winter months
   const EVENTS = [
     { 
       name: "Chad departs Timberlea", 
@@ -224,7 +237,11 @@
       const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
       const data = await res.json();
       document.getElementById(tempId).textContent = Math.round(data.current_weather.temperature) + "°C";
-    } catch (e) { console.error(e); }
+    } catch (e) { 
+      console.error(e); 
+      document.getElementById(tempId).textContent = "N/A";
+      document.getElementById(tempId).title = "Weather data unavailable";
+    }
   }
 
   function renderEvents() {
@@ -309,12 +326,20 @@
     document.getElementById('toggleBtn').textContent = showAll ? "Show Less" : "Show Full List"; 
   };
 
+  // Set dynamic footer date
+  function updateFooterDate() {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    document.getElementById('lastUpdated').textContent = `Last updated: ${dateStr}`;
+  }
+
   createSnow();
   renderEvents();
   fetchWeather(44.65, -63.68, 't-temp');
   fetchWeather(45.83, -66.07, 'c-temp');
   setInterval(updateMainTimer, 1000);
   updateMainTimer();
+  updateFooterDate();
 </script>
 </body>
 </html>
