@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+  <meta name="description" content="Halifax Forum Super Bingo hub with location, schedule, and interactive features for the Youngs family Christmas celebration." />
+  <meta name="theme-color" content="#0a1a0d" />
   <title>Halifax Forum Super Bingo Hub</title>
   <style>
     :root {
@@ -78,53 +80,57 @@
 </head>
 <body>
 
-<header>
-  <a href="index.html" class="back-btn">← Home</a>
+<header role="banner">
+  <a href="index.html" class="back-btn" aria-label="Back to home">← Home</a>
   <h1 style="font-size: 24px; color: var(--accent); margin: 0;">Halifax Forum Super Bingo</h1>
-  <div class="live-indicator">● LIVE HUB ACTIVE</div>
+  <div class="live-indicator" role="status" aria-live="polite">● LIVE HUB ACTIVE</div>
 </header>
 
 <div class="hub-wrap">
-  <div class="location-card">
-    <div class="label" style="font-size: 10px; color: var(--accent); letter-spacing: 2px;">BINGO GAMING CENTRE</div>
+  <section class="location-card" aria-labelledby="location-heading">
+    <h2 class="label" id="location-heading" style="font-size: 10px; color: var(--accent); letter-spacing: 2px; margin: 0 0 10px 0;">BINGO GAMING CENTRE</h2>
     <div class="address">6205 Almon Street, Halifax, NS<br><small>(Entrance off Almon St Parking Lot)</small></div>
-    <a href="https://www.google.com/maps/search/?api=1&query=6205+Almon+St+Halifax+Forum+Bingo" target="_blank" class="map-link">📍 Open in Maps</a>
-  </div>
+    <a href="https://www.google.com/maps/search/?api=1&query=6205+Almon+St+Halifax+Forum+Bingo" target="_blank" rel="noopener noreferrer" class="map-link" aria-label="Open Halifax Forum Bingo location in Google Maps">📍 Open in Maps</a>
+  </section>
 
-  <div class="schedule-sidebar">
-    <div style="font-weight: bold; margin-bottom: 10px; color: var(--accent);">Tonight's Schedule</div>
+  <section class="schedule-sidebar" aria-labelledby="schedule-heading">
+    <h2 id="schedule-heading" style="font-weight: bold; margin: 0 0 10px 0; color: var(--accent);">Tonight's Schedule</h2>
     <div class="time-row"><span>Doors Open</span> <span class="time-val">5:00 PM</span></div>
     <div class="time-row"><span>Warm-up / Early Bird</span> <span class="time-val">6:15 PM</span></div>
     <div class="time-row"><span>Main Session</span> <span class="time-val">7:30 PM</span></div>
-  </div>
+  </section>
 
-  <div class="button-zone">
-    <button class="big-btn" onclick="playBingo()">BINGO!</button>
-    <span class="shout-label">Tap to Shout</span>
-    
-    <button class="big-btn shh-btn" onclick="playShh()">SHH!</button>
-    <span class="shout-label">Whisper Mode</span>
-  </div>
+  <section class="button-zone" aria-label="Interactive sound buttons">
+    <button class="big-btn" onclick="playBingo()" aria-label="Play BINGO sound">BINGO!</button>
+    <span class="shout-label" aria-hidden="true">Tap to Shout</span>
+
+    <button class="big-btn shh-btn" onclick="playShh()" aria-label="Play quiet shush sound">SHH!</button>
+    <span class="shout-label" aria-hidden="true">Whisper Mode</span>
+  </section>
 </div>
 
 <script>
   // Sound generation using Web Audio API (no external files needed)
   function createAudio(freq, type, duration) {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, ctx.currentTime);
-    gain.gain.setValueAtTime(0.5, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + duration);
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      gain.gain.setValueAtTime(0.5, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + duration);
+    } catch (e) {
+      console.error('Audio playback error:', e);
+    }
   }
 
   function playBingo() {
-    // High festive tone
+    // High festive tone (C5 and E5 notes)
     createAudio(523.25, 'square', 0.5);
     setTimeout(() => createAudio(659.25, 'square', 0.5), 100);
   }

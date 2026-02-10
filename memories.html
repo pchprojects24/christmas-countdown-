@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+  <meta name="description" content="Christmas memories photo gallery from the Youngs family celebrations over the years." />
+  <meta name="theme-color" content="#050a06" />
   <title>Youngs' Christmas Memories</title>
   <style>
     :root {
@@ -79,19 +81,19 @@
 </head>
 <body>
 
-<header>
-  <a href="index.html" class="back-btn">← Home</a>
+<header role="banner">
+  <a href="index.html" class="back-btn" aria-label="Back to home">← Home</a>
   <div style="text-align: right;">
     <span style="color:var(--accent); font-weight: bold;">Youngs'</span><br>
     <small>Holiday Gallery</small>
   </div>
 </header>
 
-<div class="gallery-container" id="gallery">
-  </div>
+<main class="gallery-container" id="gallery" role="main">
+</main>
 
 <script>
-  // List of files from your repository main folder
+  // List of photos from the repository
   const PHOTOS = [
     { src: '005.JPG', label: 'Family Holiday' },
     { src: '059.JPG', label: 'Festive Cheer' },
@@ -106,8 +108,8 @@
 
   const gallery = document.getElementById('gallery');
 
-  PHOTOS.forEach(photo => {
-    const card = document.createElement('div');
+  PHOTOS.forEach((photo, index) => {
+    const card = document.createElement('article');
     card.className = 'memory-card';
     card.innerHTML = `
       <img src="${photo.src}" alt="${photo.label}" loading="lazy">
