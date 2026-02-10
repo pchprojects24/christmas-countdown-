@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+  <meta name="description" content="Neptune Theatre Wizard of Oz show hub with cast information, etiquette guidelines, and post-show Christmas light tour route." />
+  <meta name="theme-color" content="#022c22" />
   <title>The Emerald City Portal - Neptune Theatre</title>
   <style>
     :root {
@@ -65,7 +67,7 @@
       font-size: 18px;
     }
 
-    .info-label { font-size: 10px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; font-weight: bold; }
+    .info-label { font-size: 10px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin: 0 0 8px 0; font-weight: bold; }
 
     .btn-gold {
       display: block; background: var(--gold); color: black;
@@ -90,54 +92,54 @@
 </head>
 <body>
 
-<header>
-  <a href="index.html" class="back-btn">← Home</a>
+<header role="banner">
+  <a href="index.html" class="back-btn" aria-label="Back to home">← Home</a>
   <h1 style="font-size: 26px; color: var(--gold); margin: 0;">Emerald City Hub</h1>
-  <p style="font-size: 14px; opacity: 0.8;">Neptune Theatre: Wizard of Oz</p>
+  <p style="font-size: 14px; opacity: 0.8; margin: 5px 0 0 0;">Neptune Theatre: Wizard of Oz</p>
 </header>
 
-<div class="road-container">
-  
-  <div class="theatre-card">
-    <div class="info-label">Performance Info</div>
+<main class="road-container">
+
+  <section class="theatre-card" aria-labelledby="performance-heading">
+    <h2 class="info-label" id="performance-heading">Performance Info</h2>
     <div style="font-size: 18px; font-weight: bold;">Wizard of Oz</div>
     <div style="font-size: 13px; margin: 8px 0; color: #ccc;">Neptune Theatre Main Stage</div>
-    <a href="https://www.neptunetheatre.com/box-office/wizard-of-oz" target="_blank" class="btn-gold">📖 Open Digital Program</a>
-  </div>
+    <a href="https://www.neptunetheatre.com/box-office/wizard-of-oz" target="_blank" rel="noopener noreferrer" class="btn-gold" aria-label="Open Wizard of Oz digital program">📖 Open Digital Program</a>
+  </section>
 
-  <div class="theatre-card">
-    <div class="info-label">Cast Highlights</div>
+  <section class="theatre-card" aria-labelledby="cast-heading">
+    <h2 class="info-label" id="cast-heading">Cast Highlights</h2>
     <ul class="cast-list">
       <li><span class="role">Dorothy</span> <span>Becca Guilderson</span></li>
       <li><span class="role">Scarecrow</span> <span>Tyler Craig</span></li>
       <li><span class="role">Tinman</span> <span>Callum Guy</span></li>
       <li><span class="role">Lion</span> <span>Jacob MacInnis</span></li>
     </ul>
-    <p style="font-size: 11px; opacity: 0.7;">*Cast subject to change per Neptune Theatre records.</p>
-  </div>
+    <p style="font-size: 11px; opacity: 0.7; margin: 0;">*Cast subject to change per Neptune Theatre records.</p>
+  </section>
 
-  <div class="theatre-card">
-    <div class="info-label">Theatre Etiquette</div>
+  <section class="theatre-card" aria-labelledby="etiquette-heading">
+    <h2 class="info-label" id="etiquette-heading">Theatre Etiquette</h2>
     <div class="etiquette-box">
       • Arrive 30 minutes early for seating.<br>
       • Silence all mobile devices before the show.<br>
       • Photography and video are not permitted.<br>
       • Intermission is approximately 20 minutes.
     </div>
-  </div>
+  </section>
 
-  <div class="theatre-card" style="border-color: #991b1b;">
-    <div class="info-label" style="color: #ef4444;">Post-Show Tradition</div>
+  <section class="theatre-card" style="border-color: #991b1b;" aria-labelledby="tradition-heading">
+    <h2 class="info-label" id="tradition-heading" style="color: #ef4444;">Post-Show Tradition</h2>
     <div style="font-size: 16px; font-weight: bold;">Christmas Light Tour</div>
-    <p style="font-size: 12px; opacity: 0.9;">Follow the "Yellow Brick Road" through the city to see the best holiday house displays.</p>
-    <a href="https://www.google.com/maps/dir/Neptune+Theatre,+Argyle+Street,+Halifax,+NS/Connaught+Avenue,+Halifax,+NS/Public+Gardens,+Halifax,+NS" target="_blank" class="btn-gold" style="background: #991b1b; color: white;">📍 View Light Tour Route</a>
-  </div>
+    <p style="font-size: 12px; opacity: 0.9; margin: 8px 0;">Follow the "Yellow Brick Road" through the city to see the best holiday house displays.</p>
+    <a href="https://www.google.com/maps/dir/Neptune+Theatre,+Argyle+Street,+Halifax,+NS/Connaught+Avenue,+Halifax,+NS/Public+Gardens,+Halifax,+NS" target="_blank" rel="noopener noreferrer" class="btn-gold" style="background: #991b1b; color: white;" aria-label="View Christmas light tour route in Google Maps">📍 View Light Tour Route</a>
+  </section>
 
-</div>
+</main>
 
-<div class="footer-note">
+<footer class="footer-note" role="contentinfo">
   "There's no place like home for the holidays."
-</div>
+</footer>
 
 </body>
 </html>

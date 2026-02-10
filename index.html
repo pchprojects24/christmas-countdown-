@@ -3,7 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="The Youngs family Christmas countdown hub with schedule, weather updates, and contact information for the holiday season." />
+  <meta name="theme-color" content="#050a06" />
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="The Youngs' Christmas Hub" />
+  <meta property="og:description" content="Family Christmas countdown and holiday planning hub" />
+
   <title>The Youngs' Christmas Countdown</title>
+
+  <!-- Preconnect to external API -->
+  <link rel="preconnect" href="https://api.open-meteo.com" />
   <style>
     :root {
       --bg: #050a06; 
@@ -34,7 +45,7 @@
     /* Header */
     .site-header { text-align: center; margin-bottom: 20px; }
     .header-top { display: block; font-size: 18px; color: var(--accent); text-transform: uppercase; letter-spacing: 4px; font-weight: 700; opacity: 0.9; }
-    .header-bottom { display: block; font-size: 34px; font-weight: 800; color: var(--accent); text-shadow: 0 0 15px var(--accent); margin-top: 5px; }
+    .header-bottom { display: block; font-size: 34px; font-weight: 800; color: var(--accent); text-shadow: 0 0 15px var(--accent); margin: 5px 0 0 0; }
 
     /* Featured Event Card */
     .featured-card {
@@ -70,7 +81,7 @@
       margin-bottom: 15px; 
       backdrop-filter: blur(12px); 
     }
-    .label { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin-bottom: 12px; }
+    .label { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin: 0 0 12px 0; }
     
     .weather-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
     .weather-item { background: rgba(0,0,0,0.3); padding: 12px; border-radius: 12px; border: 1px solid var(--border); text-align: center; }
@@ -126,19 +137,19 @@
 <div class="snow-container" id="snow"></div>
 
 <div class="wrap">
-  <header class="site-header">
+  <header class="site-header" role="banner">
     <span class="header-top">The Youngs'</span>
-    <span class="header-bottom">🎄 Christmas Hub 🎄</span>
+    <h1 class="header-bottom">🎄 Christmas Hub 🎄</h1>
   </header>
 
-  <div class="featured-card" id="featuredSection">
-    <div class="featured-label">Next Up</div>
-    <div class="featured-title" id="featuredTitle">Checking Schedule...</div>
-    <div class="featured-timer" id="featuredTimer">00:00:00:00</div>
-  </div>
+  <section class="featured-card" id="featuredSection" aria-labelledby="featured-label">
+    <div class="featured-label" id="featured-label">Next Up</div>
+    <div class="featured-title" id="featuredTitle" role="status" aria-live="polite">Checking Schedule...</div>
+    <div class="featured-timer" id="featuredTimer" role="timer" aria-live="polite">00:00:00:00</div>
+  </section>
 
-  <div class="card">
-    <div class="label">Contact the Crew</div>
+  <section class="card" aria-labelledby="contact-label">
+    <h2 class="label" id="contact-label">Contact the Crew</h2>
     <div class="contact-grid">
       <div class="contact-card">
         <div class="contact-name">Chad</div>
@@ -162,35 +173,35 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="card">
-    <div class="label">Weather & Travel</div>
+  <section class="card" aria-labelledby="weather-label">
+    <h2 class="label" id="weather-label">Weather & Travel</h2>
     <div class="weather-grid">
       <div class="weather-item">
         <div class="w-loc">Timberlea</div>
-        <div class="w-temp" id="t-temp">--°C</div>
+        <div class="w-temp" id="t-temp" role="status" aria-live="polite" aria-label="Timberlea temperature">--°C</div>
       </div>
       <div class="weather-item">
         <div class="w-loc">C. Narrows</div>
-        <div class="w-temp" id="c-temp">--°C</div>
+        <div class="w-temp" id="c-temp" role="status" aria-live="polite" aria-label="Cambridge Narrows temperature">--°C</div>
       </div>
     </div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-      <a href="https://511.novascotia.ca/" target="_blank" style="text-decoration:none; color:var(--accent); border:1px solid var(--accent); padding:10px; border-radius:10px; font-size:11px; text-align:center;">⚠️ NS Roads</a>
-      <a href="https://511.gnb.ca/" target="_blank" style="text-decoration:none; color:var(--accent); border:1px solid var(--accent); padding:10px; border-radius:10px; font-size:11px; text-align:center;">⚠️ NB Roads</a>
+      <a href="https://511.novascotia.ca/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:var(--accent); border:1px solid var(--accent); padding:10px; border-radius:10px; font-size:11px; text-align:center;" aria-label="Nova Scotia road conditions">⚠️ NS Roads</a>
+      <a href="https://511.gnb.ca/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:var(--accent); border:1px solid var(--accent); padding:10px; border-radius:10px; font-size:11px; text-align:center;" aria-label="New Brunswick road conditions">⚠️ NB Roads</a>
     </div>
-  </div>
+  </section>
 
-  <div class="card">
-    <div class="label">Holiday Schedule</div>
-    <div id="eventList"></div>
-    <button class="btn" style="background: transparent; border: 1px solid var(--border); font-size: 12px; margin-top:15px;" id="toggleBtn">Show Full List</button>
-  </div>
+  <section class="card" aria-labelledby="schedule-label">
+    <h2 class="label" id="schedule-label">Holiday Schedule</h2>
+    <div id="eventList" role="list"></div>
+    <button class="btn" style="background: transparent; border: 1px solid var(--border); font-size: 12px; margin-top:15px;" id="toggleBtn" aria-expanded="false">Show Full List</button>
+  </section>
 
   <a href="memories.html" class="btn btn-gold" style="font-size: 18px;">🎁 Christmas Memories</a>
-  
-  <div class="footer-line" id="lastUpdated">Last updated: Loading...</div>
+
+  <footer class="footer-line" id="lastUpdated" role="contentinfo">Last updated: Loading...</footer>
 </div>
 
 <script>
@@ -233,14 +244,22 @@
   let showAll = false;
 
   async function fetchWeather(lat, lon, tempId) {
+    const tempElement = document.getElementById(tempId);
     try {
       const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
       const data = await res.json();
-      document.getElementById(tempId).textContent = Math.round(data.current_weather.temperature) + "°C";
-    } catch (e) { 
-      console.error(e); 
-      document.getElementById(tempId).textContent = "N/A";
-      document.getElementById(tempId).title = "Weather data unavailable";
+      if (data.current_weather && typeof data.current_weather.temperature === 'number') {
+        tempElement.textContent = Math.round(data.current_weather.temperature) + "°C";
+      } else {
+        throw new Error('Invalid weather data format');
+      }
+    } catch (e) {
+      console.error('Weather fetch error:', e);
+      tempElement.textContent = "N/A";
+      tempElement.title = "Weather data unavailable";
     }
   }
 
@@ -248,16 +267,17 @@
     const list = document.getElementById('eventList');
     list.innerHTML = '';
     const now = new Date();
-    
+
     // Deterministic expand/collapse: show first 3 if collapsed
     const visibleEvents = showAll ? EVENTS : EVENTS.slice(0, 3);
 
     visibleEvents.forEach((ev, i) => {
       const row = document.createElement('div');
       row.className = 'event';
+      row.setAttribute('role', 'listitem');
       const date = ev.iso ? new Date(ev.iso) : null;
-      
-      const timeStr = date 
+
+      const timeStr = date
         ? date.toLocaleDateString([], {month:'short', day:'numeric'}) + " @ " + date.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
         : "TBD";
 
@@ -271,7 +291,7 @@
           <div>
             <p class="event-name">${ev.name}</p>
             <p class="event-time">${timeStr}</p>
-            <button class="notes-toggle" onclick="toggleNotes(this)">Notes</button>
+            <button class="notes-toggle" onclick="toggleNotes(this)" aria-label="Toggle notes for ${ev.name}">Notes</button>
           </div>
         </div>
         <div class="details">${notesHtml}</div>
@@ -282,8 +302,10 @@
 
   function toggleNotes(btn) {
     const eventDiv = btn.closest('.event');
+    const isOpen = eventDiv.classList.contains('open');
     eventDiv.classList.toggle('open');
     btn.textContent = eventDiv.classList.contains('open') ? "Close" : "Notes";
+    btn.setAttribute('aria-expanded', !isOpen);
   }
 
   function updateMainTimer() {
@@ -293,18 +315,21 @@
       .filter(ev => ev.iso && new Date(ev.iso) > now)
       .sort((a, b) => new Date(a.iso) - new Date(b.iso));
 
+    const titleElement = document.getElementById('featuredTitle');
+    const timerElement = document.getElementById('featuredTimer');
+
     if (futureTimedEvents.length > 0) {
       const next = futureTimedEvents[0];
-      document.getElementById('featuredTitle').textContent = next.name;
+      titleElement.textContent = next.name;
       const diff = new Date(next.iso) - now;
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff % 86400000) / 3600000);
       const m = Math.floor((diff % 3600000) / 60000);
       const s = Math.floor((diff % 60000) / 1000);
-      document.getElementById('featuredTimer').textContent = `${d}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+      timerElement.textContent = `${d}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
     } else {
-      document.getElementById('featuredTitle').textContent = "Merry Christmas!";
-      document.getElementById('featuredTimer').textContent = "Family Time!";
+      titleElement.textContent = "Merry Christmas!";
+      timerElement.textContent = "Family Time!";
     }
   }
 
@@ -320,23 +345,27 @@
     }
   }
 
-  document.getElementById('toggleBtn').onclick = () => { 
-    showAll = !showAll; 
-    renderEvents(); 
-    document.getElementById('toggleBtn').textContent = showAll ? "Show Less" : "Show Full List"; 
+  document.getElementById('toggleBtn').onclick = () => {
+    showAll = !showAll;
+    renderEvents();
+    const toggleBtn = document.getElementById('toggleBtn');
+    toggleBtn.textContent = showAll ? "Show Less" : "Show Full List";
+    toggleBtn.setAttribute('aria-expanded', showAll);
   };
 
   // Set dynamic footer date
   function updateFooterDate() {
     const now = new Date();
     const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    document.getElementById('lastUpdated').textContent = `Last updated: ${dateStr}`;
+    const footerElement = document.getElementById('lastUpdated');
+    footerElement.textContent = `Last updated: ${dateStr}`;
   }
 
+  // Initialize application
   createSnow();
   renderEvents();
-  fetchWeather(44.65, -63.68, 't-temp');
-  fetchWeather(45.83, -66.07, 'c-temp');
+  fetchWeather(44.65, -63.68, 't-temp'); // Timberlea, NS
+  fetchWeather(45.83, -66.07, 'c-temp'); // Cambridge Narrows, NB
   setInterval(updateMainTimer, 1000);
   updateMainTimer();
   updateFooterDate();
